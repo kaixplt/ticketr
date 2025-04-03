@@ -17,5 +17,6 @@ public interface IEventoService {
     Evento guardar(Evento evento);
     Evento buscarPorId(Integer id);
     void eliminar(Integer id);
-    boolean comprarBoletos(Integer eventoId, Integer cantidad, Integer usuarioId);
+    // boolean comprarBoletos(Integer eventoId, Integer cantidad, Integer usuarioId);
+    boolean comprarBoletos(Integer eventoId, Integer cantidad, String emailUsuario); // Cambio de Integer a String para el email para la auntetificación de compra en el controlador, temporal???
 }
