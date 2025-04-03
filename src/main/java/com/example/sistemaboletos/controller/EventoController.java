@@ -12,8 +12,8 @@ package com.example.sistemaboletos.controller;
 import com.example.sistemaboletos.model.Evento;
 import com.example.sistemaboletos.model.servicio.IEventoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.core.Authentication;
+// import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,8 +43,8 @@ public class EventoController {
 
     @PostMapping("/comprar/{id}")
     public String comprarBoletos(@PathVariable Integer id, @RequestParam Integer cantidad) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
+        // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // String email = auth.getName();
         
         // para prod obtener el ID del usuario de la sesión??? lo intento implementar luego, de momento va hardcode
         boolean exito = eventoService.comprarBoletos(id, cantidad, 1); // Usuario hardcodeado por simplicidad
