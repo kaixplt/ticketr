@@ -60,9 +60,10 @@ public class EventoServiceImpl implements IEventoService {
 
     @Override
     @Transactional
-    public synchronized boolean comprarBoletos(Integer eventoId, Integer cantidad, Integer usuarioId) {
+    // public synchronized boolean comprarBoletos(Integer eventoId, Integer cantidad, Integer usuarioId) {
+        public synchronized boolean comprarBoletos(Integer eventoId, Integer cantidad, String emailUsuario) {
         Evento evento = eventoRepo.findById(eventoId).orElse(null);
-        Usuario usuario = usuarioRepo.findById(usuarioId).orElse(null);
+        Usuario usuario = usuarioRepo.findByEmail(emailUsuario).orElse(null);
         
         if(evento == null || usuario == null || cantidad <= 0) {
             return false;
