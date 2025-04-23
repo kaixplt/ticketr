@@ -11,9 +11,15 @@ package com.example.sistemaboletos.repository;
 
 import com.example.sistemaboletos.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByEmail(String email);
+    
+    @Modifying
+    @Query(value = "ALTER TABLE usuarios AUTO_INCREMENT = 1", nativeQuery = true)
+    void resetAutoIncrement();
 }

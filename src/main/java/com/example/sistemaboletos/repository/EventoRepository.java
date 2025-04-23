@@ -11,6 +11,11 @@ package com.example.sistemaboletos.repository;
 
 import com.example.sistemaboletos.model.Evento;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 public interface EventoRepository extends JpaRepository<Evento, Integer> {
+    @Modifying
+    @Query(value = "ALTER TABLE eventos AUTO_INCREMENT = 1", nativeQuery = true)
+    void resetAutoIncrement();
 }
