@@ -10,6 +10,8 @@ package com.example.sistemaboletos.model;
  */
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -20,6 +22,9 @@ public class Usuario extends EntidadBase {
     
     @Enumerated(EnumType.STRING)
     private Rol rol;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compra> compras = new ArrayList<>();
 
     // Getters y Setters
     public String getNombre() {
