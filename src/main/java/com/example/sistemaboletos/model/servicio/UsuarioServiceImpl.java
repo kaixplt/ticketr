@@ -1,0 +1,89 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.example.sistemaboletos.model.servicio;
+
+/**
+ *
+ * @author straker
+ */
+
+import com.example.sistemaboletos.model.Rol;
+import com.example.sistemaboletos.model.Usuario;
+import com.example.sistemaboletos.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import jakarta.annotation.PostConstruct;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UsuarioServiceImpl implements UsuarioService {
+
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @PostConstruct
+    public void init() {
+        // Crear admin por defecto si no existe
+        if(usuarioRepository.findByEmail("admin@admin.com").isEmpty()) {
+            Usuario admin = new Usuario();
+            admin.setNombre("Administrador");
+            admin.setEmail("admin@admin.com");
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRol(Rol.ADMIN);
+            usuarioRepository.save(admin);
+            
+            System.out.println("Admin creado con contraseña: admin123"); // Para debug
+        }
+    }
+
+    @Override
+    public Usuario registrar(Usuario usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuario.setRol(Rol.USUARIO); // Estoy fijando el Rol de usuario por defecto profe
+        return usuarioRepository.save(usuario);
+    }
+    
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
+    }
+
+    @Override
+    public Optional<Usuario> findById(Integer id) {
+        return usuarioRepository.findById(id);
+    }
+
+    @Override
+    public Usuario save(Usuario usuario) {
+        // Si es un usuario nuevo o se está cambiando la contraseña
+        if (usuario.getId() == null || usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
+        return usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        usuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Usuario> findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+}
