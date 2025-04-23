@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -78,8 +79,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) {
-        usuarioRepository.deleteById(id);
+        try {
+            Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+            usuarioRepository.delete(usuario);
+            
+            // Reset auto-increment counter
+            usuarioRepository.resetAutoIncrement();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar el usuario: " + e.getMessage());
+        }
     }
 
     @Override

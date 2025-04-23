@@ -54,8 +54,18 @@ public class EventoServiceImpl implements IEventoService {
     }
 
     @Override
+    @Transactional
     public void eliminar(Integer id) {
-        eventoRepo.deleteById(id);
+        try {
+            Evento evento = eventoRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evento no encontrado con id: " + id));
+            eventoRepo.delete(evento);
+            
+            // Reset auto-increment counter
+            eventoRepo.resetAutoIncrement();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar el evento: " + e.getMessage());
+        }
     }
 
     @Override
