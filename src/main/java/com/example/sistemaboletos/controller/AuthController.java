@@ -44,4 +44,9 @@ public class AuthController {
         usuarioService.registrar(usuario);
         return "redirect:/login";
     }
+
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "access-denied";
+    }
 }
