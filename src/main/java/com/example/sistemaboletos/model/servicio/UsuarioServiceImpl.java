@@ -51,7 +51,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario registrar(Usuario usuario) {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        usuario.setRol(Rol.USUARIO); // Estoy fijando el Rol de usuario por defecto profe
+        usuario.setRol(Rol.USUARIO); // El rol de usuario por defecto para cada nuevo registro
         return usuarioRepository.save(usuario);
     }
     
@@ -86,7 +86,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
             usuarioRepository.delete(usuario);
             
-            // Reset auto-increment counter
+            // Resetear el contador de auto-incremento
             usuarioRepository.resetAutoIncrement();
         } catch (Exception e) {
             throw new RuntimeException("Error al eliminar el usuario: " + e.getMessage());

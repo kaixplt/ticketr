@@ -61,7 +61,7 @@ public class EventoServiceImpl implements IEventoService {
                 .orElseThrow(() -> new RuntimeException("Evento no encontrado con id: " + id));
             eventoRepo.delete(evento);
             
-            // Reset auto-increment counter
+            // Resetear el contador de auto-incremento
             eventoRepo.resetAutoIncrement();
         } catch (Exception e) {
             throw new RuntimeException("Error al eliminar el evento: " + e.getMessage());
