@@ -1,4 +1,4 @@
-# TixManager - Event Ticket Management System
+# Ticketr – simple event ticket system
 
 ## 📌 Description
 A web-based system for ticket sales and management with:
